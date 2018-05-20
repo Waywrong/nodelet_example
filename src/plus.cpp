@@ -18,7 +18,7 @@ public:
   {}  
   
 private:  
-  virtual void onInit()  
+  virtual void onInit() //as main() 
   {  
     ros::NodeHandle& private_nh = getPrivateNodeHandle();  
     private_nh.getParam("value", value_);  
