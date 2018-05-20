@@ -1,0 +1,14 @@
+<launch>  
+  <node pkg="nodelet" type="nodelet" name="manager_1"  args="manager" output="screen"/>  
+  
+  <node pkg="nodelet" type="nodelet" name="test1" args="load nodelet_ns/Plus manager_1" output="screen"/>  
+  <node pkg="nodelet" type="nodelet" name="test2" args="load nodelet_ns/Plus manager_1" output="screen"/>  
+  <node pkg="nodelet" type="nodelet" name="test3" args="load nodelet_ns/Plus manager_1" output="screen"/>  
+  
+  <node pkg="nodelet" type="nodelet" name="manager_2"  args="manager" output="screen"/>  
+  <node pkg="nodelet" type="nodelet" name="test4" args="load nodelet_ns/Plus manager_2" output="screen"/>  
+  <node pkg="nodelet" type="nodelet" name="test5" args="load nodelet_ns/Plus manager_2" output="screen"/>  
+  
+  <node pkg="nodelet" type="nodelet" name="test6" args="standalone nodelet_ns/Plus " output="screen"/>  
+            
+</launch>  
