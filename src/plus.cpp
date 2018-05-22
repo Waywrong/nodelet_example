@@ -7,8 +7,9 @@
 #include <grid_map_cv/grid_map_cv.hpp>
 #include "grid_map_core/Polygon.hpp"
 #include <math.h> //fabs
+#include "m700_msgs/StoSlam.h"
 
-namespace nodelet_test
+namespace nodelet_sto
 {
 
 class Plus : public nodelet::Nodelet
@@ -25,10 +26,12 @@ private:
     private_nh.getParam("value", value_);
     pub = private_nh.advertise<std_msgs::Float64>("out", 10);
     sub = private_nh.subscribe("in", 10, &Plus::callback, this);
-    gridMapSubscriber = private_nh.subscribe("/cleaned_map_grid_map",
+    gridMapSubscriber = private_nh.subscribe("cleaned_map_grid_map",
                        10, &Plus::gridmapCallback, this);
     gridMapPublisher = private_nh.advertise<grid_map_msgs::GridMap>(
-                      "/GridMapOut", 10);
+                      "GridMapOut", 10);
+
+    Service_ = private_nh.advertiseService("sto_test_srv", &Plus::ServiceCallback, this);
   }
 
   void callback(const std_msgs::Float64::ConstPtr& input)
@@ -44,12 +47,21 @@ private:
     gridMapPublisher.publish(msg_grid_map);
     NODELET_DEBUG("hi");
   }
+
+  bool ServiceCallback(m700_msgs::StoSlam::Request &req,
+         m700_msgs::StoSlam::Response &res)
+  {
+    res.result = true;
+    return true;
+  }
+
   ros::Publisher pub;
   ros::Subscriber sub;
   ros::Subscriber gridMapSubscriber;
   ros::Publisher gridMapPublisher;
+  ros::ServiceServer Service_;
   double value_;
 };
 
-PLUGINLIB_EXPORT_CLASS(nodelet_test::Plus,nodelet::Nodelet)
+PLUGINLIB_EXPORT_CLASS(nodelet_sto::Plus,nodelet::Nodelet)
 }

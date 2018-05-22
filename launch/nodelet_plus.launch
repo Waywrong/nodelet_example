@@ -1,28 +1,28 @@
 <launch>
   <node pkg="nodelet" type="nodelet" name="manager_1"  args="manager" output="screen"/>
 
-  <node pkg="nodelet" type="nodelet" name="test1" args="load nodelet_test/Plus manager_1" output="screen">
+  <node pkg="nodelet" type="nodelet" name="test1" args="load nodelet_sto/Plus manager_1" output="screen">
   	<param name="value" type="double" value="1.1"/>
   </node>
-  <node pkg="nodelet" type="nodelet" name="test2" args="load nodelet_test/Plus manager_1" output="screen">
+  <node pkg="nodelet" type="nodelet" name="test2" args="load nodelet_sto/Plus manager_1" output="screen">
   	<param name="value" type="double" value="2.2"/>
   	<remap from="test2/in" to="foo"/>
   </node>
-  <node pkg="nodelet" type="nodelet" name="test3" args="load nodelet_test/Plus manager_1" output="screen">
+  <node pkg="nodelet" type="nodelet" name="test3" args="load nodelet_sto/Plus manager_1" output="screen">
   	<param name="value" type="double" value="3.3"/>
   	<remap from="test3/in" to="foo"/>
   </node>
 
-  <node pkg="nodelet" type="nodelet" name="manager_2"  args="manager" output="screen"/>
-  <node pkg="nodelet" type="nodelet" name="test4" args="load nodelet_test/Plus manager_2" output="screen">
+  <!--node pkg="nodelet" type="nodelet" name="manager_sto"  args="manager" output="screen"/-->
+  <node pkg="nodelet" type="nodelet" name="test4" args="load nodelet_sto/Plus manager_sto" output="screen">
   	<param name="value" type="double" value="4.4"/>
   	<rosparam file="$(find nodelet_test_pkg)/plus_default.yaml"/>
   </node>
-  <node pkg="nodelet" type="nodelet" name="test5" args="load nodelet_test/Plus manager_2" output="screen">
+  <node pkg="nodelet" type="nodelet" name="test5" args="load nodelet_sto/Plus manager_sto" output="screen">
   	<param name="value" type="double" value="5.5"/>
   </node>
 
-  <node pkg="nodelet" type="nodelet" name="test6" args="standalone nodelet_test/Plus " output="screen">
+  <node pkg="nodelet" type="nodelet" name="test6" args="standalone nodelet_sto/Plus " output="screen">
   	<param name="value" type="double" value="6.6"/>
   </node>
 </launch>

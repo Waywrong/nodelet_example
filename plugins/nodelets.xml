@@ -1,6 +1,6 @@
 <library path="lib/libnodelet_test_lib">  
-  <class name="nodelet_test/Plus" 
-  	     type="nodelet_test::Plus" 
+  <class name="nodelet_sto/Plus" 
+  	     type="nodelet_sto::Plus" 
   	     base_class_type="nodelet::Nodelet">  
     <description>   
       A node to add a value and republish.  
