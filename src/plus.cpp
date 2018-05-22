@@ -31,7 +31,7 @@ private:
     gridMapPublisher = private_nh.advertise<grid_map_msgs::GridMap>(
                       "GridMapOut", 10);
 
-    Service_ = private_nh.advertiseService("sto_test_srv", &Plus::ServiceCallback, this);
+    Service_ = private_nh.advertiseService("/sto_test_srv", &Plus::ServiceCallback, this);
   }
 
   void callback(const std_msgs::Float64::ConstPtr& input)
