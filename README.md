@@ -4,35 +4,42 @@ nodelet test
 ### Run
 ```
 	(source ~/code/test_ros/devel/setup.bash)
-	roslaunch nodelet_test_pkg nodelet_test.launch
+	roslaunch nodelet_test_pkg nodelet_plus.launch
 ```
+
+### test
+```
+rosrun nodelet nodelet manager __name:=nodelet_manager
+rosrun nodelet nodelet load nodelet_ns/Plus nodelet_manager __name:=nodelet1 nodelet1/in:=foo _value:=1.1
+
+rosrun nodelet nodelet load nodelet_ns/Plus nodelet_manager __name:=nodelet2 nodelet2/in:=foo 
+
+rostopic pub /foo std_msgs/Float64 1.0 -r 10 
+rostopic pub /test1/in std_msgs/Float64 1.0 -r 10
+
+rostopic echo /nodelet1/out
+rostopic echo /nodelet2/out
+```
+
 ### node --> nodelet
 ```
+1.Work in progress...(see nodelet_tutorial_math for an example)
 
-1.流程：
+add the necessary #includes
+get rid of int main()
+subclass nodelet::Nodelet
+move code from constructor to onInit()
+add the PLUGINLIB_EXPORT_CLASS macro
+add <build_depend> and <run_depend> dependencies on nodelet in the package manifest.
 
-（1）添加必要的 #includes。
+add the <nodelet> item in the <export> part of the package manifest
 
-（2）移除主函数int main()。
+create the .xml file to define the nodelet as a plugin
+make the necessary changes to CMakeLists.txt (comment out a rosbuild_add_executable, add a rosbuild_add_library)
 
-（3）创建nodelet::Nodelet子类。
 
-（4）把构造函数移植到onInit()。
-
-（5）添加PLUGINLIB_EXPORT_CLASS宏定义。
-
-（6）在package.xml中添加nodelet编译、运行依赖项nodelet。
-
-（7）将nodelet加入到package.xml的<export> 部分。
-
-（8）定义.xml文件使nodelet成为一个插件。
-
-（9）在CMakeLists.txt中添加rosbuild_add_executable, add a rosbuild_add_library。
-
-2.最小的nodelet：
-
-（1）MyNodeletClass.h
-
+2.Minimal nodelet：
+(1)MyNodeletClass.h
 
 #include <nodelet/nodelet.h>
 namespace example_pkg
@@ -44,8 +51,7 @@ namespace example_pkg
     };
 }
 
-（2）MyNodeletClass.cpp
-
+(2)MyNodeletClass.cpp
 // this should really be in the implementation (.cpp file)
 #include <pluginlib/class_list_macros.h>
 // watch the capitalization carefully
@@ -58,7 +64,7 @@ namespace example_pkg
     }
 }
 
-（3）nodelet_plugins.xml
+(3)nodelet_plugins.xml
   <library path="lib/libMyNodeletClass">
   <class name="example_pkg/MyNodeletClass" type="example_pkg::MyNodeletClass" base_class_type="nodelet::Nodelet">
 
@@ -68,7 +74,7 @@ namespace example_pkg
   </class>
 </library>
 
-（4）package.xml
+(4)package.xml
 ...
 <build_depend>nodelet</build_depend>
 <run_depend>nodelet</run_depend>
@@ -77,7 +83,7 @@ namespace example_pkg
 </export>
 ...
 
-（5）mynodelet.launch
+(5)mynodelet.launch
 <launch>
   <node pkg="nodelet" type="nodelet" name="standalone_nodelet"  args="manager" output="screen"/>
   <node pkg="nodelet" type="nodelet" name="MyNodeletClass" args="load example_pkg/MyNodeletClass standalone_nodelet" output="screen">
