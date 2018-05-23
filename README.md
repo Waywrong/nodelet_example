@@ -1,6 +1,24 @@
 nodelet test
 ============
 
+```
+Case1: with '/'
+  sub = private_nh.subscribe("/in", 10, &Plus::callback, this);
+topic as following, and /in is the only input
+/in
+/out
+
+Case2: without '/'
+  sub = private_nh.subscribe("in", 10, &Plus::callback, this);
+topic as following, and each ***/in is independent but can be remaped into the same one. eg /in
+/test1/in
+/test1/out
+/test2/in
+/test2/out
+/test3/in
+/test3/out
+```
+
 ### Run
 ```
 	(source ~/code/test_ros/devel/setup.bash)
